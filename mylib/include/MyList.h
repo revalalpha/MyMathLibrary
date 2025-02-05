@@ -1,8 +1,8 @@
 #ifndef MYLIB_LIST_H
 #define MYLIB_LIST_H
 
-namespace mylib
-{
+namespace mylib {
+
     template <typename T>
     class List {
     private:
@@ -21,15 +21,15 @@ namespace mylib
     public:
         List() : m_head(nullptr), m_tail(nullptr), m_size(0) {}
 
-        ~List() 
+        ~List()
         {
             clear();
         }
 
-        void push_back(const T& value) 
+        void push_back(const T& value)
         {
             Node* newNode = new Node(value);
-            if (m_tail) 
+            if (m_tail)
             {
                 m_tail->m_next = newNode;
                 newNode->m_prev = m_tail;
@@ -40,10 +40,10 @@ namespace mylib
             ++m_size;
         }
 
-        void push_front(const T& value) 
+        void push_front(const T& value)
         {
             Node* newNode = new Node(value);
-            if (m_head) 
+            if (m_head)
             {
                 m_head->m_prev = newNode;
                 newNode->m_next = m_head;
@@ -54,9 +54,9 @@ namespace mylib
             ++m_size;
         }
 
-        void pop_front() 
+        void pop_front()
         {
-            if (m_head) 
+            if (m_head)
             {
                 Node* temp = m_head;
                 m_head = m_head->m_next;
@@ -87,36 +87,36 @@ namespace mylib
             else
                 throw std::out_of_range("List is empty");
         }
-    e
+
         T& front()
-    {
-            if (head) 
-                return head->data;
+        {
+            if (m_head)
+                return m_head->m_data;
             throw std::out_of_range("List is empty");
         }
 
-        const T& front() const 
+        const T& front() const
         {
-            if (head)
-                return head->data;
+            if (m_head)
+                return m_head->m_data;
             throw std::out_of_range("List is empty");
         }
 
         T& back()
         {
-            if (tail) 
-                return tail->data;
+            if (m_tail)
+                return m_tail->m_data;
             throw std::out_of_range("List is empty");
         }
 
         const T& back() const
         {
-            if (tail) 
-                return tail->data;
+            if (m_tail)
+                return m_tail->m_data;
             throw std::out_of_range("List is empty");
         }
 
-        bool empty() const 
+        bool empty() const
         {
             return m_size == 0;
         }
@@ -126,9 +126,9 @@ namespace mylib
             return m_size;
         }
 
-        void clear() 
+        void clear()
         {
-            while (head) 
+            while (m_head)
             {
                 pop_front();
             }
@@ -136,82 +136,82 @@ namespace mylib
 
         void print() const
         {
-            Node* current = head;
+            Node* current = m_head;
             while (current)
             {
-                std::cout << current->data << " ";
-                current = current->next;
+                std::cout << current->m_data << " ";
+                current = current->m_next;
             }
             std::cout << std::endl;
         }
 
         void print_reverse() const
         {
-            Node* current = tail;
+            Node* current = m_tail;
             while (current)
             {
-                std::cout << current->data << " ";
-                current = current->prev;
+                std::cout << current->m_data << " ";
+                current = current->m_prev;
             }
             std::cout << std::endl;
         }
 
         class Iterator {
         private:
-            Node* current;
+            Node* m_current;
         public:
-            Iterator(Node* node) : current(node) {}
+            Iterator(Node* node) : m_current(node) {}
 
-            T& operator*() 
+            T& operator*()
             {
-                return current->data;
+                return m_current->m_data;
             }
 
-            const T& operator*() const 
+            const T& operator*() const
             {
-                return current->data;
+                return m_current->m_data;
             }
 
-            Iterator& operator++() 
+            Iterator& operator++()
             {
-                current = current->next;
+                m_current = m_current->m_next;
                 return *this;
             }
 
             Iterator operator++(int)
             {
                 Iterator temp = *this;
-                current = current->next;
+                m_current = m_current->m_next;
                 return temp;
             }
 
-            Iterator& operator--() 
+            Iterator& operator--()
             {
-                current = current->prev;
+                m_current = m_current->m_prev;
                 return *this;
             }
 
             Iterator operator--(int)
             {
                 Iterator temp = *this;
-                current = current->prev;
+                m_current = m_current->m_prev;
                 return temp;
             }
 
             bool operator==(const Iterator& other) const
             {
-                return current == other.current;
+                return m_current == other.m_current;
             }
 
             bool operator!=(const Iterator& other) const
             {
-                return current != other.current;
+                return m_current != other.m_current;
             }
         };
 
         Iterator begin()
         {
-            return Iterator(head);
+            return Iterator(m_head);
         }
 
         Iterator end()
@@ -221,7 +221,7 @@ namespace mylib
 
         Iterator cbegin() const
         {
-            return Iterator(head);
+            return Iterator(m_head);
         }
 
         Iterator cend() const
@@ -229,13 +229,13 @@ namespace mylib
             return Iterator(nullptr);
         }
 
-        List& operator=(const List& other) 
+        List& operator=(const List& other)
         {
             if (this == &other)
                 return *this;
             clear();
-            for (Node* node = other.head; node != nullptr; node = node->next) 
-                push_back(node->data);
+            for (Node* node = other.m_head; node != nullptr; node = node->m_next)
+                push_back(node->m_data);
             return *this;
         }
     };
