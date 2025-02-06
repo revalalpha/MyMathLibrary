@@ -117,7 +117,7 @@ namespace mylib
             return m_size == 0; 
         }
 
-        T* data_ptr() 
+        T* data() 
         { 
             return m_data; 
         }
@@ -134,6 +134,13 @@ namespace mylib
             if (index >= m_size) 
                 throw "Index out of range";
             return m_data[index];
+        }
+
+        void assign(unsigned int count, const T& value)
+        {
+            clear();
+            for (unsigned int i = 0; i < count; ++i)
+                push_back(value);
         }
 
         T& front() { 
@@ -231,46 +238,215 @@ namespace mylib
             return *this;
         }
 
-        iterator begin() 
-        { 
-            return m_data; 
-        }
-
-        iterator end() 
-        { 
-            return m_data + m_size; 
-        }
-
-        const_iterator begin() const 
-        { 
-            return m_data; 
-        }
-
-        const_iterator end() const 
-        { 
-            return m_data + m_size; 
-        }
-
-        reverse_iterator rbegin() 
-        { 
-            return m_data + m_size - 1; 
-        }
-
-        reverse_iterator rend() 
-        { 
-            return m_data - 1; 
-        }
-
-        const_reverse_iterator rbegin() const 
+        class Iterator 
         {
-            return m_data + m_size - 1;
+        public:
+            Iterator(T* ptr) : m_ptr(ptr) {}
+
+            T& operator*() 
+            {
+                return *m_ptr;
+            }
+
+            T* operator->() 
+            {
+                return m_ptr;
+            }
+
+            Iterator& operator++() 
+            {
+                ++m_ptr;
+                return *this;
+            }
+
+            Iterator operator++(int)
+            {
+                Iterator temp = *this;
+                ++(*this);
+                return temp;
+            }
+
+            bool operator==(const Iterator& other) const 
+            {
+                return m_ptr == other.m_ptr;
+            }
+
+            bool operator!=(const Iterator& other) const 
+            {
+                return m_ptr != other.m_ptr;
+            }
+
+        private:
+            T* m_ptr;
+        };
+
+        class ConstIterator 
+        {
+        public:
+            ConstIterator(const T* ptr) : m_ptr(ptr) {}
+
+            const T& operator*() const
+            {
+                return *m_ptr;
+            }
+
+            const T* operator->() const
+            {
+                return m_ptr;
+            }
+
+            ConstIterator& operator++() 
+            {
+                ++m_ptr;
+                return *this;
+            }
+
+            ConstIterator operator++(int) 
+            {
+                ConstIterator temp = *this;
+                ++(*this);
+                return temp;
+            }
+
+            bool operator==(const ConstIterator& other) const 
+            {
+                return m_ptr == other.m_ptr;
+            }
+
+            bool operator!=(const ConstIterator& other) const 
+            {
+                return m_ptr != other.m_ptr;
+            }
+
+        private:
+            const T* m_ptr;
+        };
+
+        class ReverseIterator 
+        {
+        public:
+            ReverseIterator(T* ptr) : m_ptr(ptr) {}
+
+            T& operator*() 
+            {
+                return *m_ptr;
+            }
+
+            T* operator->() {
+                return m_ptr;
+            }
+
+            ReverseIterator& operator--() 
+            {
+                --m_ptr;
+                return *this;
+            }
+
+            ReverseIterator operator--(int)
+            {
+                ReverseIterator temp = *this;
+                --(*this);
+                return temp;
+            }
+
+            bool operator==(const ReverseIterator& other) const 
+            {
+                return m_ptr == other.m_ptr;
+            }
+
+            bool operator!=(const ReverseIterator& other) const
+            {
+                return m_ptr != other.m_ptr;
+            }
+
+        private:
+            T* m_ptr;
+        };
+
+        class ConstReverseIterator 
+        {
+        public:
+            ConstReverseIterator(const T* ptr) : m_ptr(ptr) {}
+
+            const T& operator*() const
+            {
+                return *m_ptr;
+            }
+
+            const T* operator->() const 
+            {
+                return m_ptr;
+            }
+
+            ConstReverseIterator& operator--() 
+            {
+                --m_ptr;
+                return *this;
+            }
+
+            ConstReverseIterator operator--(int) 
+            {
+                ConstReverseIterator temp = *this;
+                --(*this);
+                return temp;
+            }
+
+            bool operator==(const ConstReverseIterator& other) const 
+            {
+                return m_ptr == other.m_ptr;
+            }
+
+            bool operator!=(const ConstReverseIterator& other) const
+            {
+                return m_ptr != other.m_ptr;
+            }
+
+        private:
+            const T* m_ptr;
+        };
+
+    public:
+
+        Iterator begin() 
+        {
+            return Iterator(m_data);
         }
 
-        const_reverse_iterator rend() const 
-        { 
-            return m_data - 1;
+        Iterator end() 
+        {
+            return Iterator(m_data + m_size);
         }
 
+        ConstIterator begin() const 
+        {
+            return ConstIterator(m_data);
+        }
+
+        ConstIterator end() const
+        {
+            return ConstIterator(m_data + m_size);
+        }
+
+        ReverseIterator rbegin()
+        {
+            return ReverseIterator(m_data + m_size - 1);
+        }
+
+        ReverseIterator rend() 
+        {
+            return ReverseIterator(m_data - 1);
+        }
+
+        ConstReverseIterator rbegin() const 
+        {
+            return ConstReverseIterator(m_data + m_size - 1);
+        }
+
+        ConstReverseIterator rend() const 
+        {
+            return ConstReverseIterator(m_data - 1);
+        }
+                                            
         private:
             T* m_data;
             unsigned int m_size;
