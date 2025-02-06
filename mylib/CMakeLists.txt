@@ -10,6 +10,7 @@ set(HEADERS
     ${HEADER_DIR}/MyList.h
     ${HEADER_DIR}/MyIntrusiveList.h
     ${HEADER_DIR}/MyNDimVector.h
+    ${HEADER_DIR}/MyAlgo.h
 )
 
 set(SOURCES
