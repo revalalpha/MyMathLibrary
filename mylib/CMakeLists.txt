@@ -11,10 +11,10 @@ set(HEADERS
     ${HEADER_DIR}/MyIntrusiveList.h
     ${HEADER_DIR}/MyNDimVector.h
     ${HEADER_DIR}/MyAlgo.h
+    ${HEADER_DIR}/testVector.h
 )
 
 set(SOURCES
-    ${SOURCE_DIR}/MyAlgo.cpp
 )
 
 add_library(${PROJECT_NAME}
