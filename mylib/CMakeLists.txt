@@ -12,6 +12,11 @@ set(HEADERS
     ${HEADER_DIR}/MyNDimVector.h
     ${HEADER_DIR}/MyAlgo.h
     ${HEADER_DIR}/testVector.h
+    ${HEADER_DIR}/testArray.h
+    ${HEADER_DIR}/testList.h
+    ${HEADER_DIR}/testIntrusiveList.h
+    ${HEADER_DIR}/testMatrix.h
+    ${HEADER_DIR}/testNDimVector.h
 )
 
 set(SOURCES
