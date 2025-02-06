@@ -15,6 +15,7 @@ set(HEADERS
 )
 
 set(SOURCES
+    ${SOURCE_DIR}/testVector.cpp
 )
 
 add_library(${PROJECT_NAME}
