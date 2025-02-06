@@ -10,17 +10,10 @@ set(HEADERS
     ${HEADER_DIR}/MyList.h
     ${HEADER_DIR}/MyIntrusiveList.h
     ${HEADER_DIR}/MyNDimVector.h
-    ${HEADER_DIR}/MyIterator.h
 )
 
 set(SOURCES
-    ${SOURCE_DIR}/MyVector.cpp
-    ${SOURCE_DIR}/MyArray.cpp
-    ${SOURCE_DIR}/MyMatrix.cpp
-    ${SOURCE_DIR}/MyList.cpp
-    ${SOURCE_DIR}/MyIntrusiveList.cpp
-    ${SOURCE_DIR}/MyNDimVector.cpp
-    ${SOURCE_DIR}/MyIterator.cpp
+    ${SOURCE_DIR}/MyAlgo.cpp
 )
 
 add_library(${PROJECT_NAME}
