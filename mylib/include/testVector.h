@@ -36,6 +36,7 @@ namespace mylib {
 
             std::cout << "testPushBack: ";
             printVector(vec);
+            std::cout << std::endl;
         }
 
         static void testPopBack()
@@ -48,6 +49,7 @@ namespace mylib {
 
             std::cout << "testPopBack: ";
             printVector(vec);
+            std::cout << std::endl;
         }
 
         static void testInsert()
@@ -59,6 +61,7 @@ namespace mylib {
 
             std::cout << "testInsert: ";
             printVector(vec);
+            std::cout << std::endl;
         }
 
         static void testErase()
@@ -71,6 +74,7 @@ namespace mylib {
 
             std::cout << "testErase: ";
             printVector(vec);
+            std::cout << std::endl;
         }
 
         static void testResize()
@@ -82,6 +86,7 @@ namespace mylib {
 
             std::cout << "testResize: ";
             printVector(vec);
+            std::cout << std::endl;
         }
 
         static void testReserve()
@@ -93,6 +98,7 @@ namespace mylib {
 
             std::cout << "testReserve: ";
             printVector(vec);
+            std::cout << std::endl;
         }
 
         static void testEquality()
@@ -104,7 +110,8 @@ namespace mylib {
             vec2.push_back(20);
 
             std::cout << "testEquality: ";
-            std::cout << (vec1 == vec2 ? "Equal" : "Not Equal") << std::endl;
+            std::cout << (vec1 == vec2 ? "Equal" : "Not Equal");
+            std::cout << "\n" << std::endl;
         }
 
         static void testAssign()
@@ -114,7 +121,7 @@ namespace mylib {
             std::cout << "After assign(5, 10): ";
             for (unsigned int i = 0; i < vec.size(); ++i)
                 std::cout << vec[i] << " ";
-            std::cout << std::endl;
+            std::cout << "\n" << std::endl;
         }
 
         static void testSelectionSort()
@@ -133,7 +140,7 @@ namespace mylib {
 
             std::cout << "Sorted with SelectionSort: ";
             printVector(vec);
-            std::cout << std::endl;
+            std::cout << "\n" << std::endl;
         }
 
         static void testInsertionSort()
@@ -152,7 +159,7 @@ namespace mylib {
 
             std::cout << "Sorted with InsertionSort: ";
             printVector(vec);
-            std::cout << std::endl;
+            std::cout << "\n" << std::endl;
         }
 
         static void testBubbleSort()
@@ -171,7 +178,7 @@ namespace mylib {
 
             std::cout << "Sorted with BubbleSort: ";
             printVector(vec);
-            std::cout << std::endl;
+            std::cout << "\n" << std::endl;
         }
 
         static void testMergeSort()
@@ -190,7 +197,7 @@ namespace mylib {
 
             std::cout << "Sorted with MergeSort: ";
             printVector(vec);
-            std::cout << std::endl;
+            std::cout << "\n" << std::endl;
         }
 
         static void testQuickSort()
@@ -209,7 +216,7 @@ namespace mylib {
 
             std::cout << "Sorted with QuickSort: ";
             printVector(vec);
-            std::cout << std::endl;
+            std::cout << "\n" << std::endl;
         }
 
         static void printVector(const Vector<int>& vec)

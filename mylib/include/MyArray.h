@@ -17,12 +17,6 @@ namespace mylib
             m_data = new T[size];
         }
 
-        Array(const Array& other) : m_size(other.m_size) {
-            m_data = new T[m_size];
-            for (size_t i = 0; i < m_size; ++i)
-                m_data[i] = other.m_data[i];
-        }
-
         Array(const Array& other) : m_data(new T[other.m_size]), m_size(other.m_size) {
             for (size_t i = 0; i < m_size; ++i) {
                 m_data[i] = other.m_data[i];
@@ -67,14 +61,15 @@ namespace mylib
             return m_size;
         }
 
-        void resize(size_t newSize) 
+        void resize(size_t newSize)
         {
+            if (newSize == m_size) 
+                return;
             T* newData = new T[newSize];
-            size_t minSize = (newSize < m_size) ? newSize : m_size;
-
-            for (size_t i = 0; i < minSize; ++i)
+            for (size_t i = 0; i < std::min(m_size, newSize); ++i)
                 newData[i] = m_data[i];
-
+            for (size_t i = m_size; i < newSize; ++i)
+                newData[i] = T();
             delete[] m_data;
             m_data = newData;
             m_size = newSize;
@@ -91,6 +86,19 @@ namespace mylib
         {
             for (size_t i = 0; i < m_size; ++i)
                 m_data[i] = value;
+        }
+
+        void assign(size_t count, const T& value)
+        {
+            for (size_t i = 0; i < count; ++i) {
+                if (i < m_size)
+                    m_data[i] = value;
+                else 
+                {
+                    resize(i + 1);
+                    m_data[i] = value;
+                }
+            }
         }
 
         T& front()

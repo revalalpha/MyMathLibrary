@@ -89,11 +89,16 @@ namespace mylib
             --m_size;
         }
 
-        void resize(unsigned int newSize) 
+        void resize(size_t newSize)
         {
-            if (newSize > m_capacity) 
+            if (newSize > m_capacity)
                 InternalResize(newSize);
-            m_size = newSize;
+            if (newSize < m_size)
+                m_size = newSize;
+            else if (newSize > m_size)
+                for (size_t i = m_size; i < newSize; ++i)
+                    m_data[i] = T();
+                m_size = newSize;
         }
 
         void reserve(unsigned int newCapacity) 
