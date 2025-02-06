@@ -21,8 +21,6 @@ namespace mylib {
             return os;
         }
 
-
-
         T& operator()(size_t row, size_t col)
         {
             if (row >= m_size || col >= m_size)
