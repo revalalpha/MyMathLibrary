@@ -72,22 +72,38 @@ namespace mylib {
             ++m_size;
         }
 
-        void remove(T& obj) 
+        void pop_front()
         {
-            if (obj.m_prev)
-                obj.m_prev->m_next = obj.m_next;
-            else
-                m_head = obj.m_next;
-
-            if (obj.m_next)
-                obj.m_next->m_prev = obj.m_prev;
-            else
-                m_tail = obj.m_prev;
-
-            obj.m_next = nullptr;
-            obj.m_prev = nullptr;
-            --m_size;
+            if (m_head)
+                remove(*m_head);
         }
+
+        void pop_back()
+        {
+            if (m_tail)
+                remove(*m_tail);
+        }
+
+        void remove(T& obj)
+        {
+            if (obj.m_prev || obj.m_next || m_head == &obj)
+            {
+                if (obj.m_prev)
+                    obj.m_prev->m_next = obj.m_next;
+                else
+                    m_head = obj.m_next;
+
+                if (obj.m_next)
+                    obj.m_next->m_prev = obj.m_prev;
+                else
+                    m_tail = obj.m_prev;
+
+                obj.m_next = nullptr;
+                obj.m_prev = nullptr;
+                --m_size;
+            }
+        }
+
 
         void clear()
         {
@@ -163,6 +179,53 @@ namespace mylib {
         { 
             return Iterator(nullptr);
         }
+
+        class ConstIterator
+        {
+        public:
+            ConstIterator(const T* node) : m_current(node) {}
+
+            const T& operator*() const 
+            {
+                return *m_current; 
+            }
+
+            ConstIterator& operator++()
+            {
+                m_current = m_current->m_next;
+                return *this;
+            }
+
+            ConstIterator& operator--()
+            {
+                m_current = m_current->m_prev;
+                return *this;
+            }
+
+            bool operator==(const ConstIterator& other) const
+            { 
+                return m_current == other.m_current; 
+            }
+
+            bool operator!=(const ConstIterator& other) const 
+            { 
+                return m_current != other.m_current; 
+            }
+        };
+
+        ConstIterator begin() const
+        { 
+            return ConstIterator(m_head);
+        }
+
+        ConstIterator end() const 
+        { 
+            return ConstIterator(nullptr); 
+        }
+
+        private:
+            const T* m_current;
+
     };
 } // namespace mylib
 
