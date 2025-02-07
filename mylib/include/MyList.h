@@ -1,49 +1,43 @@
 #ifndef MYLIB_LIST_H
 #define MYLIB_LIST_H
 
-namespace mylib 
-{
+#include <stdexcept>
+#include <sstream>
+
+namespace mylib {
+
     template <typename T>
     class List {
     public:
         List() : m_head(nullptr), m_tail(nullptr), m_size(0) {}
 
-        /*List(const List& other) : m_head(nullptr), m_tail(nullptr), m_size(0)
-        {
-            for (Node* node = other.m_head; node != nullptr; node = node->m_next)
-                push_back(node->m_data);
-        }*/
-
-        ~List()
-        {
+        ~List() {
             clear();
         }
 
-        void push_back(const T& value)
-        {
+        void push_back(const T& value) {
             Node* newNode = new Node(value);
-            if (m_tail)
-            {
+            if (m_tail) {
                 m_tail->m_next = newNode;
                 newNode->m_prev = m_tail;
                 m_tail = newNode;
             }
-            else
+            else {
                 m_head = m_tail = newNode;
+            }
             ++m_size;
         }
 
-        void push_front(const T& value)
-        {
+        void push_front(const T& value) {
             Node* newNode = new Node(value);
-            if (m_head)
-            {
+            if (m_head) {
                 m_head->m_prev = newNode;
                 newNode->m_next = m_head;
                 m_head = newNode;
             }
-            else
+            else {
                 m_head = m_tail = newNode;
+            }
             ++m_size;
         }
 
@@ -73,41 +67,35 @@ namespace mylib
             --m_size;
         }
 
-        T& front()
-        {
+        T& front() {
             if (m_head)
                 return m_head->m_data;
             throw std::out_of_range("List is empty");
         }
 
-        const T& front() const
-        {
+        const T& front() const {
             if (m_head)
                 return m_head->m_data;
             throw std::out_of_range("List is empty");
         }
 
-        T& back()
-        {
+        T& back() {
             if (m_tail)
                 return m_tail->m_data;
             throw std::out_of_range("List is empty");
         }
 
-        const T& back() const
-        {
+        const T& back() const {
             if (m_tail)
                 return m_tail->m_data;
             throw std::out_of_range("List is empty");
         }
 
-        bool empty() const
-        {
+        bool empty() const {
             return m_size == 0;
         }
 
-        size_t size() const
-        {
+        size_t size() const {
             return m_size;
         }
 
@@ -116,28 +104,122 @@ namespace mylib
                 pop_front();
         }
 
-        /*void erase(Iterator pos)
-        {
-            if (!pos.getCurrent())
-                return;
+        void insert(size_t index, const T& value) {
+            if (index > m_size) throw std::out_of_range("Index out of range");
 
-            Node* node = pos.getCurrent();
+            if (index == 0) {
+                push_front(value);
+            }
+            else if (index == m_size) {
+                push_back(value);
+            }
+            else {
+                Node* newNode = new Node(value);
+                Node* current = m_head;
+                for (size_t i = 0; i < index; ++i) {
+                    current = current->m_next;
+                }
+                newNode->m_next = current;
+                newNode->m_prev = current->m_prev;
+                if (current->m_prev) {
+                    current->m_prev->m_next = newNode;
+                }
+                current->m_prev = newNode;
+                ++m_size;
+            }
+        }
 
-            if (node == m_head)
+        void erase(size_t index) {
+            if (index >= m_size) throw std::out_of_range("Index out of range");
+
+            if (index == 0) {
                 pop_front();
-            else if (node == m_tail)
+            }
+            else if (index == m_size - 1) {
                 pop_back();
-            else
-            {
-                node->m_prev->m_next = node->m_next;
-                node->m_next->m_prev = node->m_prev;
-                delete node;
+            }
+            else {
+                Node* current = m_head;
+                for (size_t i = 0; i < index; ++i) {
+                    current = current->m_next;
+                }
+                if (current->m_prev) {
+                    current->m_prev->m_next = current->m_next;
+                }
+                if (current->m_next) {
+                    current->m_next->m_prev = current->m_prev;
+                }
+                delete current;
                 --m_size;
             }
+        }
 
-            pos.getCurrent() = nullptr;
-        }*/
+        void remove(const T& value) {
+            Node* current = m_head;
+            while (current) {
+                if (current->m_data == value) {
+                    if (current == m_head) {
+                        pop_front();
+                    }
+                    else if (current == m_tail) {
+                        pop_back();
+                    }
+                    else {
+                        current->m_prev->m_next = current->m_next;
+                        if (current->m_next) {
+                            current->m_next->m_prev = current->m_prev;
+                        }
+                        delete current;
+                        --m_size;
+                    }
+                    return;
+                }
+                current = current->m_next;
+            }
+            throw std::out_of_range("Element not found");
+        }
 
+        T& at(size_t index) {
+            if (index >= m_size) throw std::out_of_range("Index out of range");
+            Node* current = m_head;
+            for (size_t i = 0; i < index; ++i) {
+                current = current->m_next;
+            }
+            return current->m_data;
+        }
+
+        const T& at(size_t index) const {
+            if (index >= m_size) throw std::out_of_range("Index out of range");
+            Node* current = m_head;
+            for (size_t i = 0; i < index; ++i) {
+                current = current->m_next;
+            }
+            return current->m_data;
+        }
+
+        void reverse() {
+            if (m_size <= 1) return;
+
+            Node* current = m_head;
+            Node* temp = nullptr;
+            while (current) {
+                temp = current->m_prev;
+                current->m_prev = current->m_next;
+                current->m_next = temp;
+                current = current->m_prev;
+            }
+            temp = m_head;
+            m_head = m_tail;
+            m_tail = temp;
+        }
+
+        T& operator[](size_t index) {
+            return at(index);
+        }
+
+        const T& operator[](size_t index) const {
+            return at(index);
+        }
 
         std::string print() const {
             std::ostringstream oss;
@@ -159,213 +241,322 @@ namespace mylib
             return oss.str();
         }
 
-        class Iterator : public List {
-        public:
-            Iterator(Node* node) : m_current(node) {}
-
-            T& operator*()
-            {
-                return m_current->m_data;
+        struct iterator {
+            //this iterator compatible with stl
+            using iterator_category = std::random_access_iterator_tag;
+            using value_type = T;
+            using difference_type = std::ptrdiff_t;
+            using pointer = T*;
+            using reference = T&;
+            friend List;
+            iterator(pointer ptr) : m_ptr(ptr) {}
+            reference operator*() {
+                return *m_ptr;
             }
-
-            const T& operator*() const
-            {
-                return m_current->m_data;
+            const reference operator*() const {
+                return *m_ptr;
             }
-
-            Iterator& operator++()
-            {
-                m_current = m_current->m_next;
+            pointer operator->() {
+                return m_ptr;
+            }
+            const pointer operator->() const {
+                return m_ptr;
+            }
+            iterator& operator++() {
+                ++m_ptr;
                 return *this;
             }
-
-            Iterator& operator--()
-            {
-                m_current = m_current->m_prev;
+            iterator& operator--() {
+                --m_ptr;
                 return *this;
             }
-
-            bool operator==(const Iterator& other) const
-            {
-                return m_current == other.m_current;
+            iterator operator+(difference_type n) const {
+                return iterator(m_ptr + n);
             }
-
-            bool operator!=(const Iterator& other) const
-            {
-                return m_current != other.m_current;
+            iterator operator-(difference_type n) const {
+                return iterator(m_ptr - n);
+            }
+            difference_type operator-(const iterator& other) const {
+                return m_ptr - other.m_ptr;
+            }
+            bool operator==(const iterator& other) const {
+                return m_ptr == other.m_ptr;
+            }
+            bool operator!=(const iterator& other) const {
+                return m_ptr != other.m_ptr;
+            }
+            bool operator<(const iterator& other) const {
+                return m_ptr < other.m_ptr;
+            }
+            bool operator>(const iterator& other) const {
+                return m_ptr > other.m_ptr;
+            }
+            bool operator<=(const iterator& other) const {
+                return m_ptr <= other.m_ptr;
+            }
+            bool operator>=(const iterator& other) const {
+                return m_ptr >= other.m_ptr;
             }
         private:
-            Node* m_current;
+            pointer m_ptr;
         };
 
-        Iterator begin()
-        {
-            return Iterator(m_head);
-        }
-
-        Iterator end()
-        {
-            return Iterator(nullptr);
-        }
-
-        Iterator cbegin() const
-        {
-            return Iterator(m_head);
-        }
-
-        Iterator cend() const
-        {
-            return Iterator(nullptr);
-        }
-
-        class ConstIterator {
-        public:
-            ConstIterator(const Node* node) : m_current(node) {}
-
-            const T& operator*() const
-            {
-                return m_current->m_data;
+        struct const_iterator {
+            //this iterator compatible with stl
+            using iterator_category = std::random_access_iterator_tag;
+            using value_type = const T;
+            using difference_type = std::ptrdiff_t;
+            using pointer = const T*;
+            using reference = const T&;
+            friend List;
+            const_iterator(pointer ptr) : m_ptr(ptr) {}
+            reference operator*() {
+                return *m_ptr;
             }
-
-            ConstIterator& operator++()
-            {
-                m_current = m_current->m_next;
+            const reference operator*() const {
+                return *m_ptr;
+            }
+            pointer operator->() {
+                return m_ptr;
+            }
+            const pointer operator->() const {
+                return m_ptr;
+            }
+            const_iterator& operator++() {
+                ++m_ptr;
                 return *this;
             }
-
-            ConstIterator& operator--()
-            {
-                m_current = m_current->m_prev;
+            const_iterator& operator--() {
+                --m_ptr;
                 return *this;
             }
-
-            bool operator==(const ConstIterator& other) const
-            {
-                return m_current == other.m_current;
+            const_iterator operator+(difference_type n) const {
+                return const_iterator(m_ptr + n);
             }
-
-            bool operator!=(const ConstIterator& other) const
-            {
-                return m_current != other.m_current;
+            const_iterator operator-(difference_type n) const {
+                return const_iterator(m_ptr - n);
+            }
+            difference_type operator-(const const_iterator& other) const {
+                return m_ptr - other.m_ptr;
+            }
+            bool operator==(const const_iterator& other) const {
+                return m_ptr == other.m_ptr;
+            }
+            bool operator!=(const const_iterator& other) const {
+                return m_ptr != other.m_ptr;
+            }
+            bool operator<(const const_iterator& other) const {
+                return m_ptr < other.m_ptr;
+            }
+            bool operator>(const const_iterator& other) const {
+                return m_ptr > other.m_ptr;
+            }
+            bool operator<=(const const_iterator& other) const {
+                return m_ptr <= other.m_ptr;
+            }
+            bool operator>=(const const_iterator& other) const {
+                return m_ptr >= other.m_ptr;
             }
         private:
-            const Node* m_current;
+            pointer m_ptr;
         };
 
-        ConstIterator cbegin() const
-        {
-            return ConstIterator(m_head);
-        }
-
-        ConstIterator cend() const
-        {
-            return ConstIterator(nullptr);
-        }
-
-        class ReverseIterator
-        {
-        public:
-            ReverseIterator(Node* node) : m_current(node) {}
-
-            Node* getCurrent() const {
-                return m_current;
+        struct reverse_iterator {
+            //this iterator compatible with stl
+            using iterator_category = std::random_access_iterator_tag;
+            using value_type = T;
+            using difference_type = std::ptrdiff_t;
+            using pointer = T*;
+            using reference = T&;
+            friend List;
+            reverse_iterator(pointer ptr) : m_ptr(ptr) {}
+            reference operator*() {
+                return *m_ptr;
             }
-
-            T& operator*() 
-            {
-                return m_current->m_data; 
+            const reference operator*() const {
+                return *m_ptr;
             }
-
-            ReverseIterator& operator++()
-            {
-                m_current = m_current->m_prev;
+            pointer operator->() {
+                return m_ptr;
+            }
+            const pointer operator->() const {
+                return m_ptr;
+            }
+            reverse_iterator& operator++() {
+                --m_ptr;
                 return *this;
             }
-
-            bool operator==(const ReverseIterator& other) const
-            { 
-                return m_current == other.m_current;
+            reverse_iterator& operator--() {
+                ++m_ptr;
+                return *this;
             }
-
-            bool operator!=(const ReverseIterator& other) const 
-            {
-                return m_current != other.m_current; 
+            reverse_iterator operator+(difference_type n) const {
+                return reverse_iterator(m_ptr - n);
+            }
+            reverse_iterator operator-(difference_type n) const {
+                return reverse_iterator(m_ptr + n);
+            }
+            difference_type operator-(const reverse_iterator& other) const {
+                return m_ptr + other.m_ptr;
+            }
+            bool operator==(const reverse_iterator& other) const {
+                return m_ptr == other.m_ptr;
+            }
+            bool operator!=(const reverse_iterator& other) const {
+                return m_ptr != other.m_ptr;
+            }
+            bool operator<(const reverse_iterator& other) const {
+                return m_ptr < other.m_ptr;
+            }
+            bool operator>(const reverse_iterator& other) const {
+                return m_ptr > other.m_ptr;
+            }
+            bool operator<=(const reverse_iterator& other) const {
+                return m_ptr <= other.m_ptr;
+            }
+            bool operator>=(const reverse_iterator& other) const {
+                return m_ptr >= other.m_ptr;
             }
         private:
-            Node* m_current;
+            pointer m_ptr;
         };
 
-        ReverseIterator rbegin() 
-        { 
-            return ReverseIterator(m_tail); 
-        }
-        ReverseIterator rend() 
-        {
-            return ReverseIterator(nullptr); 
-        }
-
-        class ConstReverseIterator
-        {
-        public:
-            ConstReverseIterator(const Node* node) : m_current(node) {}
-
-            const T& operator*() const 
-            {
-                return m_current->m_data;
+        struct const_reverse_iterator {
+            //this iterator compatible with stl
+            using iterator_category = std::random_access_iterator_tag;
+            using value_type = const T;
+            using difference_type = std::ptrdiff_t;
+            using pointer = const T*;
+            using reference = const T&;
+            friend List;
+            const_reverse_iterator(pointer ptr) : m_ptr(ptr) {}
+            reference operator*() {
+                return *m_ptr;
             }
-
-            ConstReverseIterator& operator++()
-            {
-                m_current = m_current->m_prev;
+            const reference operator*() const {
+                return *m_ptr;
+            }
+            pointer operator->() {
+                return m_ptr;
+            }
+            const pointer operator->() const {
+                return m_ptr;
+            }
+            const_reverse_iterator& operator++() {
+                --m_ptr;
                 return *this;
             }
-
-            bool operator==(const ConstReverseIterator& other) const
-            {
-                return m_current == other.m_current;
+            const_reverse_iterator& operator--() {
+                ++m_ptr;
+                return *this;
             }
-
-            bool operator!=(const ConstReverseIterator& other) const
-            {
-                return m_current != other.m_current;
+            const_reverse_iterator operator+(difference_type n) const {
+                return const_reverse_iterator(m_ptr - n);
+            }
+            const_reverse_iterator operator-(difference_type n) const {
+                return const_reverse_iterator(m_ptr + n);
+            }
+            difference_type operator-(const const_reverse_iterator& other) const {
+                return m_ptr + other.m_ptr;
+            }
+            bool operator==(const const_reverse_iterator& other) const {
+                return m_ptr == other.m_ptr;
+            }
+            bool operator!=(const const_reverse_iterator& other) const {
+                return m_ptr != other.m_ptr;
+            }
+            bool operator<(const const_reverse_iterator& other) const {
+                return m_ptr < other.m_ptr;
+            }
+            bool operator>(const const_reverse_iterator& other) const {
+                return m_ptr > other.m_ptr;
+            }
+            bool operator<=(const const_reverse_iterator& other) const {
+                return m_ptr <= other.m_ptr;
+            }
+            bool operator>=(const const_reverse_iterator& other) const {
+                return m_ptr >= other.m_ptr;
             }
         private:
-            const Node* m_current;
+            pointer m_ptr;
         };
 
-        ConstReverseIterator rbegin()
-        {
-            return ConstReverseIterator(m_tail);
-        }
-        ConstReverseIterator rend()
-        {
-            return ConstReverseIterator(nullptr);
+        iterator begin()
+    	{
+            return iterator(m_head);
         }
 
-        List& operator=(const List& other)
-        {
-            if (this == &other)
-                return *this;
-            clear();
-            for (Node* node = other.m_head; node != nullptr; node = node->m_next)
-                push_back(node->m_data);
-            return *this;
+        const_iterator begin() const
+    	{
+            return const_iterator(m_head);
         }
 
-         private:
-             struct Node {
-                 T m_data;
-                 Node* m_next;
-                 Node* m_prev;
+        iterator end()
+    	{
+            return iterator(nullptr);
+        }
 
-                 Node(const T& value) : m_data(value), m_next(nullptr), m_prev(nullptr) {}
-             };
+        const_iterator end() const
+    	{
+            return const_iterator(nullptr);
+        }
 
-             Node* m_head;
-             Node* m_tail;
-             size_t m_size;
+        reverse_iterator rbegin()
+    	{
+            return reverse_iterator(m_tail);
+        }
 
+        reverse_iterator rend()
+    	{
+            return reverse_iterator(nullptr);
+        }
+
+        iterator find(const T& value)
+        {
+            Node* current = m_head;
+            while (current) {
+                if (current->m_data == value)
+                    return iterator(&current->m_data);
+                current = current->m_next;
+            }
+            return end();
+        }
+
+        const_iterator find(const T& value) const
+        {
+            Node* current = m_head;
+            while (current) {
+                if (current->m_data == value)
+                    return const_iterator(&current->m_data);
+                current = current->m_next;
+            }
+            return end();
+        }
+
+        /*reverse_iterator find_reverse(const T& value) {
+            Node* current = m_tail;
+            while (current) {
+                if (current->m_data == value)
+                    return reverse_iterator(&current->m_data);
+                current = current->m_prev;
+            }
+            return rend();
+        }*/
+
+    private:
+        struct Node {
+            T m_data;
+            Node* m_next;
+            Node* m_prev;
+
+            Node(const T& value) : m_data(value), m_next(nullptr), m_prev(nullptr) {}
+        };
+
+        Node* m_head;
+        Node* m_tail;
+        size_t m_size;
     };
+
 } // namespace mylib
 
 #endif // MYLIB_LIST_H

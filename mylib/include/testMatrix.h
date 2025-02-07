@@ -6,6 +6,9 @@
 #include "MyAlgo.h"
 
 namespace mylib {
+    /*
+		Class for testing Matrix operations.
+    */
     class testMatrix {
     public:
         static void runTests()
@@ -25,6 +28,9 @@ namespace mylib {
         }
 
     private:
+        /*
+			Tests matrix addition.
+        */
         static void testAddition()
         {
             Matrix<int> mat1(2), mat2(2);
@@ -37,6 +43,9 @@ namespace mylib {
             std::cout << "testAddition: \n" << result << "\n" << std::endl;
         }
 
+        /*
+			Tests matrix subtraction.
+        */
         static void testSubtraction()
         {
             Matrix<int> mat1(2), mat2(2);
@@ -47,6 +56,9 @@ namespace mylib {
             std::cout << "testSubtraction: \n" << result << "\n" << std::endl;
         }
 
+        /*
+			Tests matrix multiplication.
+        */
         static void testMultiplication()
         {
             Matrix<int> mat1(2), mat2(2);
@@ -59,6 +71,9 @@ namespace mylib {
             std::cout << "testMultiplication: \n" << result << "\n" << std::endl;
         }
 
+        /*
+			Tests scalar multiplication on matrix.
+        */
         static void testScalarMultiplication()
         {
             Matrix<int> mat(2);
@@ -68,6 +83,9 @@ namespace mylib {
             std::cout << "testScalarMultiplication: \n" << result << "\n" << std::endl;
         }
 
+        /*
+			Tests matrix transpose.
+        */
         static void testTranspose()
         {
             Matrix<int> mat(2);
@@ -78,6 +96,9 @@ namespace mylib {
             std::cout << "testTranspose: \n" << result << "\n" << std::endl;
         }
 
+        /*
+			Tests matrix determinant calculation.
+        */
         static void testDeterminant()
         {
             Matrix<int> mat(2);
@@ -87,6 +108,9 @@ namespace mylib {
             std::cout << "testDeterminant: " << mat.determinant() << "\n" << std::endl;
         }
 
+        /*
+			Tests matrix inversion.
+        */
         static void testInverse()
         {
             Matrix<double> mat(2);
@@ -97,6 +121,9 @@ namespace mylib {
             std::cout << "testInverse: \n" << result << "\n" << std::endl;
         }
 
+        /*
+			Tests equality operator for matrices.
+        */
         static void testEquality()
         {
             Matrix<int> mat1(2), mat2(2);
@@ -106,6 +133,9 @@ namespace mylib {
             std::cout << "testEquality: " << (mat1 == mat2 ? "Equal" : "Not Equal") << "\n" << std::endl;
         }
 
+        /*
+			Tests matrix sorting using selection sort.
+        */
         static void testMatrixSelectionSort()
         {
             std::cout << "testMatrixSelectionSort:\n";
@@ -124,8 +154,13 @@ namespace mylib {
                     std::cout << mat[i][j] << " ";
                 std::cout << "\n";
             }
+
+            std::cout << "\n";
         }
 
+        /*
+			Tests matrix sorting using insertion sort.
+        */
         static void testMatrixInsertionSort()
         {
             std::cout << "testMatrixInsertionSort:\n";
@@ -144,8 +179,13 @@ namespace mylib {
                     std::cout << mat[i][j] << " ";
                 std::cout << "\n";
             }
+
+            std::cout << "\n";
         }
 
+        /*
+			Tests matrix sorting using bubble sort.
+        */
         static void testMatrixBubbleSort()
         {
             std::cout << "testMatrixBubbleSort:\n";
@@ -166,8 +206,13 @@ namespace mylib {
                     std::cout << mat[i][j] << " ";
                 std::cout << "\n";
             }
+
+            std::cout << "\n";
         }
 
+        /*
+			Tests matrix sorting by columns using selection sort.
+        */
         static void testMatrixColumnSelectionSort()
         {
             std::cout << "testMatrixColumnSelectionSort:\n";
@@ -192,9 +237,9 @@ namespace mylib {
                     std::cout << mat[i][j] << " ";
                 std::cout << "\n";
             }
+
+            std::cout << "\n";
         }
-
-
     };
 }
 

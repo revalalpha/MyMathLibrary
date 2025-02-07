@@ -5,10 +5,10 @@
 #include "testNDimVector.h"
 
 int main() {
-    mylib::testVector::runTests();          
+    /*mylib::testVector::runTests();          good */
     /*mylib::testArray::runTests();           good */
-    /*mylib::testMatrix::runTests();*/
-    /*mylib::testList::runTests();            not good */ 
+    /*mylib::testMatrix::runTests();          good */
+    mylib::testList::runTests();
     /*mylib::testNDimVector::runTests();*/
     return 0;
 }
