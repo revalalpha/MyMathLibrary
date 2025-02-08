@@ -28,6 +28,7 @@ namespace mylib {
             testBubbleSort();
             testMergeSort();
             testQuickSort();
+
             std::cout <<
                 "     -----------------------------------\n"
                 "     ----- '-' ALL TEST PASSED '-' -----\n"

@@ -10,7 +10,7 @@ int main() {
     mylib::testArray::runTests();
     mylib::testMatrix::runTests();
     mylib::testList::runTests();               
-    mylib::testIntrusiveList::runTests();   
-    /*mylib::testNDimVector::runTests();*/
+    mylib::testIntrusiveList::runTests();
+    mylib::testNDimVector::runTests();
     return 0;
 }

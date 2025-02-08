@@ -4,8 +4,10 @@
 #include <iostream>
 #include "MyList.h"
 
-namespace mylib {
-    class testList {
+namespace mylib
+{
+    class testList
+	{
     public:
         static void runTests()
         {
@@ -36,6 +38,7 @@ namespace mylib {
         }
 
     private:
+        // Test for pushing elements to the back of the list
         static void testPushBack()
         {
             mylib::List<int> list;
@@ -47,6 +50,7 @@ namespace mylib {
             list.print();
         }
 
+        // Test for pushing elements to the front of the list
         static void testPushFront()
         {
             mylib::List<int> list;
@@ -58,6 +62,7 @@ namespace mylib {
             list.print();
         }
 
+        // Test for popping elements from the back of the list
         static void testPopBack()
         {
             mylib::List<int> list;
@@ -70,6 +75,7 @@ namespace mylib {
             list.print();
         }
 
+        // Test for popping elements from the front of the list
         static void testPopFront()
         {
             mylib::List<int> list;
@@ -82,6 +88,7 @@ namespace mylib {
             list.print();
         }
 
+        // Test for removing a specific element from the list
         static void testRemove()
         {
             mylib::List<int> list;
@@ -94,6 +101,7 @@ namespace mylib {
             list.print();
         }
 
+        // Test for finding an element in the list
         static void testFind()
         {
             mylib::List<int> list;
@@ -105,6 +113,7 @@ namespace mylib {
             std::cout << "testFind (found 20): " << (it != list.end() ? *it : -1) << std::endl;
         }
 
+        // Test for inserting an element in the list
         static void testInsert()
         {
             mylib::List<int> list;
@@ -118,6 +127,7 @@ namespace mylib {
             list.print();
         }
 
+        // Test for erasing an element from the list
         static void testErase()
         {
             mylib::List<int> list;
@@ -132,6 +142,7 @@ namespace mylib {
             list.print();
         }
 
+        // Test for reversing the list
         static void testReverse()
         {
             mylib::List<int> list;
@@ -144,6 +155,7 @@ namespace mylib {
             list.print();
         }
 
+        // Test for iterating over the list with normal iterators
         static void testIterators()
         {
             mylib::List<int> list;
@@ -158,6 +170,7 @@ namespace mylib {
             std::cout << std::endl;
         }
 
+        // Test for iterating over the list with reverse iterators
         static void testReverseIterators()
         {
             mylib::List<int> list;
@@ -172,6 +185,7 @@ namespace mylib {
             std::cout << std::endl;
         }
 
+        // Test for accessing the front and back elements of the list
         static void testAccessors()
         {
             mylib::List<int> list;
@@ -183,6 +197,7 @@ namespace mylib {
             std::cout << "testAccessors (back): " << list.back() << std::endl;
         }
 
+        // Test for getting the size of the list
         static void testSize()
         {
             mylib::List<int> list;
@@ -192,6 +207,7 @@ namespace mylib {
             std::cout << "testSize: " << list.getSize() << std::endl;
         }
 
+        // Test for checking if the list is empty
         static void testEmpty()
         {
             mylib::List<int> list;
@@ -202,5 +218,4 @@ namespace mylib {
         }
     };
 }
-
 #endif // TEST_LIST_H

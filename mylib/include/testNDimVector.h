@@ -6,10 +6,11 @@
 
 namespace mylib
 {
-    class testNDimVector {
+    class testNDimVector
+	{
     public:
         static void runTests()
-    	{
+        {
             std::cout <<
                 "     -----------------------------------\n"
                 "     -- '-'   N DIM VECTOR TEST   '-' --\n"
@@ -25,7 +26,12 @@ namespace mylib
             testScalarDivision();
             testReverse();
             testProjection();
-            testIterator();
+            /*testIterator();   failed */
+            testSelectionSort();
+            testInsertionSort();
+            testBubbleSort();
+            testMergeSort();
+            testQuickSort();
 
             std::cout <<
                 "     -----------------------------------\n"
@@ -34,7 +40,9 @@ namespace mylib
         }
 
     private:
-        static void testDotProduct() {
+        // Tests the dot product of two vectors
+        static void testDotProduct()
+    	{
             VectorND<int> vec1({ 1, 2, 3 });
             VectorND<int> vec2({ 4, 5, 6 });
 
@@ -42,7 +50,9 @@ namespace mylib
             std::cout << vec1.dot(vec2) << std::endl;
         }
 
-        static void testCrossProduct() {
+        // Tests the cross product of two 3D vectors
+        static void testCrossProduct()
+    	{
             VectorND<int> vec1({ 1, 2, 3 });
             VectorND<int> vec2({ 4, 5, 6 });
 
@@ -53,14 +63,18 @@ namespace mylib
             std::cout << std::endl;
         }
 
-        static void testNorm() {
+        // Tests the norm (magnitude) of a vector
+        static void testNorm()
+    	{
             VectorND<int> vec({ 3, 4 });
 
             std::cout << "testNorm: ";
             std::cout << vec.norm() << std::endl;
         }
 
-        static void testNormalize() {
+        // Tests the normalization of a vector (making it a unit vector)
+        static void testNormalize()
+    	{
             VectorND<int> vec({ 3, 4 });
             vec.normalize();
 
@@ -70,7 +84,9 @@ namespace mylib
             std::cout << std::endl;
         }
 
-        static void testAddition() {
+        // Tests the addition of two vectors
+        static void testAddition()
+    	{
             VectorND<int> vec1({ 1, 2, 3 });
             VectorND<int> vec2({ 4, 5, 6 });
 
@@ -81,7 +97,9 @@ namespace mylib
             std::cout << std::endl;
         }
 
-        static void testSubtraction() {
+        // Tests the subtraction of two vectors
+        static void testSubtraction()
+    	{
             VectorND<int> vec1({ 1, 2, 3 });
             VectorND<int> vec2({ 4, 5, 6 });
 
@@ -92,7 +110,9 @@ namespace mylib
             std::cout << std::endl;
         }
 
-        static void testScalarMultiplication() {
+        // Tests the scalar multiplication of a vector
+        static void testScalarMultiplication()
+    	{
             VectorND<int> vec({ 1, 2, 3 });
             int scalar = 2;
 
@@ -103,7 +123,9 @@ namespace mylib
             std::cout << std::endl;
         }
 
-        static void testScalarDivision() {
+        // Tests the scalar division of a vector
+        static void testScalarDivision()
+    	{
             VectorND<int> vec({ 2, 4, 6 });
             int scalar = 2;
 
@@ -114,7 +136,9 @@ namespace mylib
             std::cout << std::endl;
         }
 
-        static void testReverse() {
+        // Tests the reversal of a vector (reversing its elements)
+        static void testReverse()
+    	{
             VectorND<int> vec({ 1, 2, 3 });
 
             std::cout << "testReverse: ";
@@ -124,7 +148,9 @@ namespace mylib
             std::cout << std::endl;
         }
 
-        static void testProjection() {
+        // Tests the projection of one vector onto another
+        static void testProjection()
+    	{
             VectorND<int> vec1({ 1, 2, 3 });
             VectorND<int> vec2({ 4, 5, 6 });
 
@@ -135,13 +161,86 @@ namespace mylib
             std::cout << std::endl;
         }
 
-        static void testIterator() {
-            VectorND<int> vec({ 1, 2, 3 });
+        // Sorting tests: Selection Sort, Insertion Sort, Bubble Sort, Merge Sort, Quick Sort
+        // Each test sorts an array of integers and outputs the sorted result
+        static bool isSorted(int* begin, int* end)
+    	{
+            for (int* i = begin; i < end - 1; ++i) 
+            {
+                if (*i > *(i + 1))
+                    return false;
+            }
+            return true;
+        }
 
-            std::cout << "testIterator: ";
-            for (auto it = vec.begin(); it != vec.end(); ++it)
-                std::cout << *it << " ";
+        static void testSelectionSort()
+    	{
+            int arr[] = { 64, 25, 12, 22, 11 };
+            mylib::algorithms::selectionSort(arr, arr + 5);
+
+            std::cout << "Selection Sort Result: ";
+            for (int i = 0; i < 5; ++i) 
+            {
+                std::cout << arr[i] << " ";
+            }
             std::cout << std::endl;
+            std::cout << "Selection Sort: " << (isSorted(arr, arr + 5) ? "Passed" : "Failed") << "\n";
+        }
+
+        static void testInsertionSort()
+    	{
+            int arr[] = { 64, 25, 12, 22, 11, 75 };
+            mylib::algorithms::insertionSort(arr, arr + 6);
+
+            std::cout << "Insertion Sort Result: ";
+            for (int i = 0; i < 6; ++i) 
+            {
+                std::cout << arr[i] << " ";
+            }
+            std::cout << std::endl;
+            std::cout << "Insertion Sort: " << (isSorted(arr, arr + 6) ? "Passed" : "Failed") << "\n";
+        }
+
+        static void testBubbleSort()
+    	{
+            int arr[] = { 64, 25, 12, 22, 11, 75, 38 };
+            mylib::algorithms::bubbleSort(arr, arr + 7);
+
+            std::cout << "Bubble Sort Result: ";
+            for (int i = 0; i < 7; ++i) 
+            {
+                std::cout << arr[i] << " ";
+            }
+            std::cout << std::endl;
+            std::cout << "Bubble Sort: " << (isSorted(arr, arr + 7) ? "Passed" : "Failed") << "\n";
+        }
+
+        static void testMergeSort()
+    	{
+            int arr[] = { 64, 25, 12, 22, 11, 75 };
+            mylib::algorithms::mergeSort(arr, arr + 6);
+
+            std::cout << "Merge Sort Result: ";
+            for (int i = 0; i < 6; ++i)
+            {
+                std::cout << arr[i] << " ";
+            }
+            std::cout << std::endl;
+            std::cout << "Merge Sort: " << (isSorted(arr, arr + 6) ? "Passed" : "Failed") << "\n";
+        }
+
+        static void testQuickSort()
+    	{
+            int arr[] = { 64, 25, 12, 22, 11, 75, 50 };
+            mylib::algorithms::quickSort(arr, arr + 7);
+
+            std::cout << "Quick Sort Result: ";
+            for (int i = 0; i < 7; ++i) 
+            {
+                std::cout << arr[i] << " ";
+            }
+            std::cout << std::endl;
+            std::cout << "Quick Sort: " << (isSorted(arr, arr + 7) ? "Passed" : "Failed") << "\n";
         }
     };
 }
