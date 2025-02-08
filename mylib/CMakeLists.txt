@@ -20,7 +20,7 @@ set(HEADERS
 )
 
 set(SOURCES
-    ${SOURCE_DIR}/testVector.cpp
+    ${SOURCE_DIR}/doNothing.cpp
 )
 
 add_library(${PROJECT_NAME}
