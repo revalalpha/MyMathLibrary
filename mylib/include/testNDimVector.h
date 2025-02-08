@@ -8,7 +8,13 @@ namespace mylib
 {
     class testNDimVector {
     public:
-        static void runTests() {
+        static void runTests()
+    	{
+            std::cout <<
+                "     -----------------------------------\n"
+                "     -- '-'   N DIM VECTOR TEST   '-' --\n"
+                "     -----------------------------------\n";
+
             testDotProduct();
             testCrossProduct();
             testNorm();
@@ -20,6 +26,11 @@ namespace mylib
             testReverse();
             testProjection();
             testIterator();
+
+            std::cout <<
+                "     -----------------------------------\n"
+                "     ----- '-' ALL TEST PASSED '-' -----\n"
+                "     -----------------------------------\n\n\n";
         }
 
     private:

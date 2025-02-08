@@ -13,6 +13,11 @@ namespace mylib {
     public:
         static void runTests()
         {
+            std::cout <<
+                "     -----------------------------------\n"
+                "     ----- '-'   MATRIX TEST   '-' -----\n"
+                "     -----------------------------------\n";
+
             testAddition();
             testSubtraction();
             testMultiplication();
@@ -25,6 +30,11 @@ namespace mylib {
             testMatrixColumnSelectionSort();
             testMatrixInsertionSort();
             testMatrixBubbleSort();
+
+            std::cout <<
+                "     -----------------------------------\n"
+                "     ----- '-' ALL TEST PASSED '-' -----\n"
+                "     -----------------------------------\n\n\n";
         }
 
     private:
